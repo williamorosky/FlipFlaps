@@ -31,7 +31,7 @@ private:
 Lines_window::Lines_window(Point xy, int w, int h, const string& title)
 :Window(xy,w,h,title),
 <<<<<<< Updated upstream
-button_x1(Point(50,149), 100, 30, "Off", cb_off),
+button_x1(Point(50,150), 100, 30, "Off", cb_off),
 button1(Point(50,150), 100, 30, "On", cb_on),
 =======
 button_x1(Point(50,150), 100, 30, "Off", cb_off),
