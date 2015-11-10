@@ -30,7 +30,7 @@ private:
 
 Lines_window::Lines_window(Point xy, int w, int h, const string& title)
 :Window(xy,w,h,title),
-button_x1(Point(50,150), 100, 30, "Off", cb_off),
+button_x1(Point(50,149), 100, 30, "Off", cb_off),
 button1(Point(50,150), 100, 30, "On", cb_on),
 lightbulb(Point(100,100),50),
 quit_button(Point(x_max()-70,0), 70, 20, "Quit", cb_quit)
