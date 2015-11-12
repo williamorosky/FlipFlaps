@@ -14,7 +14,8 @@ struct Lines_window : Graph_lib::Window {
 private:
     Button next_button;
     Button quit_button;
-    Text title_Text;
+    Text title_text;
+	Text names_text;
 	
     static void cb_next(Address, Address);
     void next();
@@ -27,14 +28,16 @@ private:
 
 Lines_window::Lines_window(Point xy, int w, int h, const string& title)
 :Window(xy,w,h,title),
-next_button(Point(50,150), 100, 30, "next", cb_next),
+next_button(Point((x_max()/2)-50,80), 100, 30, "Next", cb_next),
 quit_button(Point(x_max()-70,0), 70, 20, "Quit", cb_quit),
-title_Text(Point((x_max()/2)-20,30), "Flip Flaps")
+title_text(Point((x_max()/2)-20,30), "Flip Flaps"),
+names_text(Point((x_max()/2)-150,50), "William O'Rosky Akshay Jagadeesh Tyler Nardecchia")
 {
-	title_Text.set_color(Color::black);
+	
     attach(next_button);
     attach(quit_button);
-	attach(title_Text);
+	attach(title_text);
+	attach(names_text);
 }
 
 //------------------------------------------------------------------------------
@@ -70,9 +73,9 @@ void Lines_window::cb_next(Address, Address pw)     // "the usual"
 void Lines_window::next()
 
 {
-    //detach(button_x1);
+    detach(names_text);
   //  attach(button1);
-	title_Text.set_label("Rules");
+	title_text.set_label("Rules");
     (Fl::wait ());
     (Fl::flush ());
     redraw();
