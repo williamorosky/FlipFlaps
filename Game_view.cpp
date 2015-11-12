@@ -12,16 +12,14 @@ struct Lines_window : Graph_lib::Window {
     Lines_window(Point xy, int w, int h, const string& title );
     
 private:
-    Button button_x1;
-    Button button1;
-    Circle lightbulb;
-    
+    Button next_button;
     Button quit_button;
-    
-    static void cb_off(Address, Address);
-    void off();
-    static void cb_on(Address, Address);
-    void on();
+    Text title_text;
+	Text names_text;
+	
+    static void cb_next(Address, Address);
+    void next();
+
     static void cb_quit(Address, Address);
     void quit();
 };
@@ -30,21 +28,22 @@ private:
 
 Lines_window::Lines_window(Point xy, int w, int h, const string& title)
 :Window(xy,w,h,title),
-button_x1(Point(50,150), 100, 30, "Off", cb_off),
-button1(Point(50,150), 100, 30, "On", cb_on),
-lightbulb(Point(100,100),50),
-quit_button(Point(x_max()-70,0), 70, 20, "Quit", cb_quit)
-
+next_button(Point((x_max()/2)-50,80), 100, 30, "Next", cb_next),
+quit_button(Point(x_max()-70,0), 70, 20, "Quit", cb_quit),
+title_text(Point((x_max()/2)-20,30), "Flip Flaps"),
+names_text(Point((x_max()/2)-150,50), "William O'Rosky Akshay Jagadeesh Tyler Nardecchia")
 {
-    lightbulb.set_fill_color(Color::black);
-    attach(button1);
-    attach(lightbulb);
+	
+    attach(next_button);
     attach(quit_button);
+	attach(title_text);
+	attach(names_text);
 }
 
 //------------------------------------------------------------------------------
 
 void Lines_window::cb_quit(Address, Address pw)    // "the usual"
+
 {
     reference_to<Lines_window>(pw).quit();
 }
@@ -52,53 +51,42 @@ void Lines_window::cb_quit(Address, Address pw)    // "the usual"
 //------------------------------------------------------------------------------
 
 void Lines_window::quit()
+
 {
+
     hide();        // curious FLTK idiom for delete window
+
 }
 
 //------------------------------------------------------------------------------
 
-void Lines_window::cb_off(Address, Address pw)     // "the usual"
+void Lines_window::cb_next(Address, Address pw)     // "the usual"
+
 {
-    reference_to<Lines_window>(pw).off();
+
+    reference_to<Lines_window>(pw).next();
+
 }
 
 //------------------------------------------------------------------------------
 
-void Lines_window::off()
+void Lines_window::next()
+
 {
-    detach(button_x1);
-    attach(button1);
-    lightbulb.set_fill_color(Color::black);
+    detach(names_text);
+  //  attach(button1);
+	title_text.set_label("Rules");
     (Fl::wait ());
     (Fl::flush ());
     redraw();
 }
 
 //------------------------------------------------------------------------------
-
-
-void Lines_window::cb_on(Address, Address pw)     // "the usual"
-{
-    reference_to<Lines_window>(pw).on();
-}
-
-//------------------------------------------------------------------------------
-
-void Lines_window::on()
-{
-    detach(button1);
-    attach(button_x1);
-    lightbulb.set_fill_color(Color::white);
-    (Fl::wait ());
-    (Fl::flush ());
-    redraw();
-}
 
 int main()
 try
 {
-    Lines_window win(Point(100,100),370,300,"Lightbulb");
+    Lines_window win(Point(100,100),800,600,"Flip Flaps");
     return gui_main();
 }
 catch(exception& e)
