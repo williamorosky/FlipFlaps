@@ -1,6 +1,3 @@
-//Travis Stebbins
-//CSCE 121-505
-//Scores_window.cpp
 
 #include "Scores_window.h"
 

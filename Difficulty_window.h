@@ -1,6 +1,3 @@
-//Travis Stebbins
-//CSCE 121-505
-//Difficulty_window.h
 
 #include "Window.h"
 #include "Graph.h"

@@ -1,6 +1,4 @@
-//Travis Stebbins
-//CSCE 121-505
-//Scores_window.h
+
 
 #include "Window.h"
 #include "Graph.h"

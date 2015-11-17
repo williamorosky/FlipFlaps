@@ -1,6 +1,3 @@
-//Travis Stebbins
-//CSCE 121-505
-//Difficulty_window.cpp
 
 #include "Difficulty_window.h"
 

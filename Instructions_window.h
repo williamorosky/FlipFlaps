@@ -1,6 +1,4 @@
-//Sam Stegall
-//CSCE 121-505
-//Instructions_window.h
+
 
 #include "Window.h"
 #include "Graph.h"

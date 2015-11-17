@@ -1,6 +1,4 @@
-//Allison Snodgrass
-//CSCE 121-505
-//Splash_window.h
+
 
 #include "Window.h"
 #include "Graph.h"
