@@ -1,0 +1,1 @@
+void difficulty_win_next();
