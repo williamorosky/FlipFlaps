@@ -41,6 +41,7 @@ using namespace Graph_lib;
 		void Difficulty_window::set_difficulty(int n)
 		{
 			difficulty = n;
+            difficulty_win_next();
 
 		}
 		//used by game.cpp to acquire the difficulty level for the rest of the game
