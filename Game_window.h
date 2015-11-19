@@ -7,9 +7,9 @@
 using namespace Graph_lib;
 using namespace std;
 
-struct game: Graph_lib::Window
+struct Game_window: Graph_lib::Window
 {
-    game(Point xy, int w, int h, const string& title,int diff);
+    Game_window(Point xy, int w, int h, const string& title,int diff);
     void draw_pan();
     
 private:
@@ -18,9 +18,5 @@ private:
     int width;
     const int height = 20;
     
-    
-    
-    
-    
-    
+   
 };

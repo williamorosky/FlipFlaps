@@ -4,7 +4,7 @@
 #include "Scores_window.h"
 #include "Difficulty_window.h"
 #include "Main.h"
-#include "game.h"
+#include "Game_window.h"
 
 using namespace Graph_lib;
 using namespace std;
@@ -19,7 +19,7 @@ using namespace std;
 	Instructions_window* instructions_win;
 	Scores_window* scores_win;
 	Difficulty_window* difficulty_win;
-    game* game_win;
+    Game_window* game_win;
 
 	Button* splash_win_button;
 	Button* instructions_win_button;
@@ -51,9 +51,9 @@ try
         //game_win->hide();
 
 		//add "Next" buttons and attach
-		splash_win_button = new Button{Point{540,460},50,30,"Let's Play!",Callback(cb_splash_win_button)};	
-		instructions_win_button = new Button{Point{540, 460}, 50, 30, "Next", Callback(cb_instructions_window_button)};
-		scores_win_button = new Button{Point{540,460},50,30,"Next",Callback(cb_scores_win_button)};
+		splash_win_button = new Button{Point{540,460},80,30,"Let's Play!",Callback(cb_splash_win_button)};	
+		instructions_win_button = new Button{Point{540, 460}, 80, 30, "Next", Callback(cb_instructions_window_button)};
+		scores_win_button = new Button{Point{540,460},80,30,"Next",Callback(cb_scores_win_button)};
        // game_win_button = new Button{Point{540,460},50,30,"Next",Callback(cb_pancake_win_button)};
     
     
@@ -104,7 +104,7 @@ void difficulty_win_next()
      difficulty_win->hide();
    int d = difficulty_win->get_difficulty();
     cout<<" She wants the d: "<<d;
-    game_win = new game{Point{100,100}, 750, 500, "FlipFlaps",d};
+    game_win = new Game_window{Point{100,100}, 750, 500, "FlipFlaps",d};
     
    
 }
