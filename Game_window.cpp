@@ -7,17 +7,17 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     :Window{xy,w,h,title}
 {
     int b_height = (win_height - 50)-(20*8);
-    Button* b2 = new Button{Point{600,b_height},25,20,"1",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
-    Button* b3 = new Button{Point{600,b_height+20},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(3);}};
-    Button* b4 = new Button{Point{600,b_height+40},25,20,"3",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(4);}};
-    Button* b5 = new Button{Point{600,b_height+60},25,20,"4",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(5);}};
-    Button* b6 = new Button{Point{600,b_height+80},25,20,"5",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(6);}};
-    Button* b7 = new Button{Point{600,b_height+100},25,20,"6",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(7);}};
-    Button* b8 = new Button{Point{600,b_height+120},25,20,"7",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(8);}};
-    Button* b9 = new Button{Point{600,b_height+140},25,20,"8",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(9);}};
-    Button* b10 = new Button{Point{600,b_height+160},25,20,"9",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(10);}};
-    Button* b11 = new Button{Point{600,b_height+180},25,20,"10",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(11);}};
-    Button* b12 = new Button{Point{600,b_height+200},25,20,"11",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(12);}};
+    Button* b2 = new Button{Point{600,b_height},25,20,"top",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(0);}};
+    Button* b3 = new Button{Point{600,b_height+20},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
+    Button* b4 = new Button{Point{600,b_height+40},25,20,"3",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
+    Button* b5 = new Button{Point{600,b_height+60},25,20,"4",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(3);}};
+    Button* b6 = new Button{Point{600,b_height+80},25,20,"5",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(4);}};
+    Button* b7 = new Button{Point{600,b_height+100},25,20,"6",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(5);}};
+    Button* b8 = new Button{Point{600,b_height+120},25,20,"7",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(6);}};
+    Button* b9 = new Button{Point{600,b_height+140},25,20,"8",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(7);}};
+    Button* b10 = new Button{Point{600,b_height+160},25,20,"9",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(8);}};
+    Button* b11 = new Button{Point{600,b_height+180},25,20,"10",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(9);}};
+    Button* b12 = new Button{Point{600,b_height+200},25,20,"11",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(10);}};
     flip_buttons.push_back(b2);
     flip_buttons.push_back(b3);
     flip_buttons.push_back(b4);
