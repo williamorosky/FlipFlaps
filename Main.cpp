@@ -101,8 +101,8 @@ void cb_scores_win_button()
 void difficulty_win_next()
 {
     
-    difficulty_win->hide();
-    int d = difficulty_win->get_difficulty();
+     difficulty_win->hide();
+   int d = difficulty_win->get_difficulty();
     cout<<" She wants the d: "<<d;
     game_win = new Game_window{Point{100,100}, 750, 500, "FlipFlaps",d};
     
