@@ -52,7 +52,10 @@ void Game_window::redraw_window(){
 	for(int i = 0; i<stack.size(); i++){
 	int x = (win_width/2) - ((stack.get(i).get_width() * 50)/2);
 	Ellipse* pancake = new Ellipse{Point{x,y},(stack.get(i).get_width() * 50),height};
+<<<<<<< HEAD
     attach(flip_buttons[i]);
+=======
+>>>>>>> parent of 085a56a... Center Pancakes
 	Color pancake_brown(fl_rgb_color(199,168,89));
 	pancake->set_fill_color(pancake_brown);
     attach(*pancake);
