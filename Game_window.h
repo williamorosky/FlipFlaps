@@ -15,7 +15,6 @@ struct Game_window: Graph_lib::Window
 	private:
 			Text* title_label;
 			int width;
-			const int height = 10;
 			const int win_height = 500;
 			const int win_width = 750;
 		//objects
