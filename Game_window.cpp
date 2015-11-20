@@ -11,6 +11,13 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
 	min_moves=diff;
 	score=0;
 	flip_count=0;
+    
+    min_moves_label = new Text{Point{win_width-250,25}, "Can be done in " + to_string(min_moves) + " moves"};
+    flip_count_label = new Text{Point{win_width-150,50}, "Moves: " + to_string(flip_count)};
+    score_label = new Text{Point{win_width-150,75}, "Score: " + to_string(score)};
+    attach(*flip_count_label);
+    attach(*min_moves_label);
+    attach(*score_label);
 	redraw_window();
 }
 
@@ -20,8 +27,8 @@ void Game_window::redraw_window(){
 	flush();
 	int y = win_height - 50;
 	for(int i = 0; i<stack.size(); i++){
-	int x = (win_width/2) - ((stack.get(i).get_width() * 50)/2);
-	Ellipse* pancake = new Ellipse{Point{x,y},(stack.get(i).get_width() * 50),height};
+	int x = (((stack.size()+1)*40)/2);
+	Ellipse* pancake = new Ellipse{Point{x,y},(stack.get(i).get_width() * 20),height};
 	Color pancake_brown(fl_rgb_color(199,168,89));
 	pancake->set_fill_color(pancake_brown);
     attach(*pancake);
