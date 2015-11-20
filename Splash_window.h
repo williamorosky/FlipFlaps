@@ -100,7 +100,8 @@ names_text(Point((x_max()/2)-180,140), "William O'Rosky, Akshay Jagadeesh, and T
     x2h1.set_fill_color(fl_color());
     x2h2.set_fill_color(fl_color());
     x2h3.set_fill_color(fl_color());
-   
+    
+    color(fl_color());
     
     attach(background);
     attach(title_text);
