@@ -38,6 +38,7 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     min_moves_label = new Text{Point{win_width-250,25}, "Can be done in " + to_string(min_moves) + " moves"};
     flip_count_label = new Text{Point{win_width-150,50}, "Moves: " + to_string(flip_count)};
     score_label = new Text{Point{win_width-150,75}, "Score: " + to_string(score)};
+    
     attach(*flip_count_label);
     attach(*min_moves_label);
     attach(*score_label);
