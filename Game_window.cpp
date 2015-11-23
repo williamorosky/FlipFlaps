@@ -104,10 +104,16 @@ bool Game_window::is_solved(){
 //calculate the minimum moves required to win
 	int Game_window::calc_min_moves()
 	{
+	if(stack.size()<10){
 		vector<int> reverse_stack = reverse(stack.get_stack());
 		vector<int>* min_moves_vector = find_solution(reverse_stack);
 		int min_moves = min_moves_vector->size();
 		return min_moves;
+	}
+	else{
+	return 25;
+	}
+	
 	}
 
 	//reverse the Stack vector of pancakes since Stack has the bottom pancake
