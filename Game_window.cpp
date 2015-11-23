@@ -6,17 +6,20 @@ using namespace Graph_lib;
 Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     :Window{xy,w,h,title}
 {
-    Button* b2 = new Button{Point{600,100},25,25,"1",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
-    Button* b3 = new Button{Point{600,125},25,25,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
-    Button* b4 = new Button{Point{600,150},25,25,"3",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(3);}};
-    Button* b5 = new Button{Point{600,175},25,25,"4",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(4);}};
-    Button* b6 = new Button{Point{600,200},25,25,"5",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(5);}};
-    Button* b7 = new Button{Point{600,225},25,25,"6",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(6);}};
-    Button* b8 = new Button{Point{600,250},25,25,"7",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(7);}};
-    Button* b9 = new Button{Point{600,275},25,25,"8",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(8);}};
-    Button* b10 = new Button{Point{600,300},25,25,"9",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(9);}};
-    Button* b11 = new Button{Point{600,325},25,25,"10",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(10);}};
-    Button* b12 = new Button{Point{600,350},25,25,"11",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(11);}};
+    stack.create_stack(diff);
+    int b_height = (win_height - 50)-(20*diff)+30;
+    Button* b2 = new Button{Point{(diff+1)*40,b_height},25,20,"1",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
+    Button* b3 = new Button{Point{(diff+1)*40,b_height+20},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
+    Button* b4 = new Button{Point{(diff+1)*40,b_height+40},25,20,"3",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(3);}};
+    Button* b5 = new Button{Point{(diff+1)*40,b_height+60},25,20,"4",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(4);}};
+    Button* b6 = new Button{Point{(diff+1)*40,b_height+80},25,20,"5",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(5);}};
+    Button* b7 = new Button{Point{(diff+1)*40,b_height+100},25,20,"6",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(6);}};
+    Button* b8 = new Button{Point{(diff+1)*40,b_height+120},25,20,"7",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(7);}};
+    Button* b9 = new Button{Point{(diff+1)*40,b_height+140},25,20,"8",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(8);}};
+    Button* b10 = new Button{Point{(diff+1)*40,b_height+160},25,20,"9",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(9);}};
+    Button* b11 = new Button{Point{(diff+1)*40,b_height+180},25,20,"10",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(10);}};
+    Button* b12 = new Button{Point{(diff+1)*40,b_height+200},25,20,"11",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(11);}};
+	
     flip_buttons.push_back(b2);
     flip_buttons.push_back(b3);
     flip_buttons.push_back(b4);
@@ -28,17 +31,23 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     flip_buttons.push_back(b10);
     flip_buttons.push_back(b11);
     flip_buttons.push_back(b12);
-    
-	stack.create_stack(diff);
+    for(int i = 0; i < stack.size() - 1; ++i)
+		{
+			this->attach(flip_buttons[i]);
+		}
 	//min_moves=calc_min_moves();
 	min_moves=diff;
 	score=0;
 	flip_count=0;
     
-    min_moves_label = new Text{Point{win_width-250,25}, "Can be done in " + to_string(min_moves) + " moves"};
-    flip_count_label = new Text{Point{win_width-150,50}, "Moves: " + to_string(flip_count)};
-    score_label = new Text{Point{win_width-150,75}, "Score: " + to_string(score)};
+    min_moves_label = new Text{Point{20,25}, "Can be done in " + to_string(min_moves) + " moves"};
+    flip_count_label = new Text{Point{20,50}, "Moves: " + to_string(flip_count)};
+    score_label = new Text{Point{20,75}, "Score: " + to_string(score)};
     
+	r00 =  new Rectangle{Point{0,0},(diff+1)*40,500};
+    r00->set_fill_color(color());
+    r00->set_color(Color::invisible);
+
     attach(*flip_count_label);
     attach(*min_moves_label);
     attach(*score_label);
@@ -50,29 +59,53 @@ void Game_window::cb_flip(int n)
     stack.flip(n);
     flip_count++;
     redraw_window();
-    
-
 }
 
 void Game_window::redraw_window(){
 	flush();
+	attach(*r00);
 	int y = win_height - 50;
 	for(int i = 0; i<stack.size(); i++){
-	Color pancake_brown(fl_rgb_color(199,168,89));
-	pancake->set_fill_color(pancake_brown);
-    attach(*pancake);
-	y -= height + 10;
+		int x = (((stack.size()+1)*40)/2);
+		Ellipse* pancake = new Ellipse{Point{x,y},(stack.get(i).get_width() * 20),height};
+		Color pancake_color(fl_rgb_color(0,stack.get(i).get_width()*15,195));
+		pancake->set_fill_color(pancake_color);
+		pancake->set_color(Color::invisible);
+		attach(*pancake);
+		y -= height + 10;
 	}
+    flip_count_label->set_label("Moves: " + to_string(flip_count));
+    min_moves_label->set_label("Can be done in " + to_string(min_moves) + " moves");
+    score = calc_score();
+    score_label->set_label("Score: " + to_string(score));
+    attach(*flip_count_label);
+    attach(*min_moves_label);
+    attach(*score_label);
+   
+    if(score < 0){
+        score = 0;
+        end_game();}
+    if(is_solved())
+        end_game();
 }
 
 bool Game_window::is_solved(){
 
-return false;
+    for(int i = 0; i < stack.size()-1; ++i)
+    {
+        if(stack.get(i).get_width() < stack.get(i+1).get_width())
+            return false;
+    }
+    return true;
 }
 
 //int calc_min_moves(){}
 
 vector<int> Game_window::reverse(vector<Pancake> in){
+    vector<int> out;
+    for(int i=in.size() - 1; i >= 0; --i)
+        out.push_back(in[i].get_width());
+    return out;
 
 }
 

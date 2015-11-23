@@ -29,8 +29,24 @@ void Stack::flip(int n)
 		error("flip size greater than number of pancakes");
 	else
 	{
-		int d = stack.size() - 1;
-		for (int u = n; u < stack.size(); ++u)
+		
+      int d = stack.size()-1-n;
+        for(int start = stack.size()-1;start>0;start--)
+        {
+            if (start <= d)
+                return;
+            else
+            {
+                Pancake temp = stack[d];
+                stack[d] = stack[start];
+                stack[start] = temp;
+                d++;
+            }
+        }
+        
+       
+      /*int d = stack.size() - 1;
+        for (int u = n; u < stack.size(); ++u)
 		{
 			if (d <= u)
 				return;
@@ -41,7 +57,7 @@ void Stack::flip(int n)
 				stack[u] = temp;
 				--d;
 			}
-		}
+		}*/
 	}
 }
 
