@@ -14,7 +14,8 @@ struct Scores_window : Graph_lib::Window
 	//functions
 		string get_initials();
 	private:
-		//objects
+		//object
+			Rectangle* title_label_rectangle;
 			Text* title_label;
 			In_box* initials_input;
 			string initials;

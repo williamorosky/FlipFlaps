@@ -27,6 +27,9 @@ using namespace std;
 	Button* instructions_win_button;
 	Button* scores_win_button;
 	Button* result_win_button;
+	
+	Button* instructions_win_back_button;
+	Button* scores_win_back_button;
 
 //functions
 	void cb_splash_win_button();
@@ -34,6 +37,9 @@ using namespace std;
 	void cb_instructions_window_button();
     void cb_game_win_button();
 	void cb_result_win_button();
+	
+	void cb_scores_win_back_button();
+	void cb_instructions_window_back_button();
 
 
 int main()
@@ -59,13 +65,17 @@ try
 		scores_win_button = new Button{Point{540,460},80,30,"Next",Callback(cb_scores_win_button)};
         result_win_button = new Button{Point{540,460},80,30,"Next",Callback(cb_result_win_button)};
     
+		instructions_win_back_button = new Button{Point{0,0}, 80, 30, "Back", Callback(cb_instructions_window_back_button)};
+		scores_win_back_button = new Button{Point{0,0},80,30,"Back",Callback(cb_scores_win_back_button)};
     
 		splash_win->attach(*splash_win_button);
 		instructions_win->attach(*instructions_win_button);
 		scores_win->attach(*scores_win_button);
         result_win->attach(*result_win_button);
+		
+		instructions_win->attach(*instructions_win_back_button);
+		scores_win->attach(*scores_win_back_button);
 
-   
    // cout<<"Difficulty Test: "<<*(difficulty_win->get_difficulty());
     return gui_main();
 }
@@ -115,6 +125,18 @@ void end_game()
     result_win->set_initials(initials);
     result_win->update();
     result_win->show();
+}
+
+void cb_instructions_window_back_button()
+{
+	instructions_win->hide();
+	splash_win->show();
+}
+
+void cb_scores_win_back_button()
+{
+	scores_win->hide();
+	instructions_win->show();
 }
 
 void cb_result_win_button()

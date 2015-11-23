@@ -7,6 +7,8 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     :Window{xy,w,h,title}
 {
     stack.create_stack(diff);
+	min_moves = calc_min_moves();
+	score=0;
     int b_height = (win_height - 50)-(20*diff)+30;
     Button* b2 = new Button{Point{(diff+1)*40,b_height},25,20,"1",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
     Button* b3 = new Button{Point{(diff+1)*40,b_height+20},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
@@ -35,9 +37,9 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
 		{
 			this->attach(flip_buttons[i]);
 		}
-	//min_moves=calc_min_moves();
-	min_moves=diff;
-	score=0;
+	
+	//min_moves=diff;
+	
 	flip_count=0;
     
     min_moves_label = new Text{Point{20,25}, "Can be done in " + to_string(min_moves) + " moves"};
@@ -68,7 +70,7 @@ void Game_window::redraw_window(){
 	for(int i = 0; i<stack.size(); i++){
 		int x = (((stack.size()+1)*40)/2);
 		Ellipse* pancake = new Ellipse{Point{x,y},(stack.get(i).get_width() * 20),height};
-		Color pancake_color(fl_rgb_color(0,stack.get(i).get_width()*15,195));
+		Color pancake_color(fl_rgb_color(0,stack.get(i).get_width()*(255/stack.size()),195));
 		pancake->set_fill_color(pancake_color);
 		pancake->set_color(Color::invisible);
 		attach(*pancake);
@@ -99,15 +101,25 @@ bool Game_window::is_solved(){
     return true;
 }
 
-//int calc_min_moves(){}
+//calculate the minimum moves required to win
+	int Game_window::calc_min_moves()
+	{
+		vector<int> reverse_stack = reverse(stack.get_stack());
+		vector<int>* min_moves_vector = find_solution(reverse_stack);
+		int min_moves = min_moves_vector->size();
+		return min_moves;
+	}
 
-vector<int> Game_window::reverse(vector<Pancake> in){
-    vector<int> out;
-    for(int i=in.size() - 1; i >= 0; --i)
-        out.push_back(in[i].get_width());
-    return out;
-
-}
+	//reverse the Stack vector of pancakes since Stack has the bottom pancake
+	//at index 0 and find_solution() requires the top pancake at index 0
+	vector<int> Game_window::reverse(vector<Pancake> in)
+	{
+		vector<int> out;
+		for(int i=in.size() - 1; i >= 0; --i)
+			out.push_back(in[i].get_width());
+		return out;
+	}
+	
 
 int Game_window::calc_score(){
 int score = (100-(10 *(flip_count-min_moves)))*stack.size();

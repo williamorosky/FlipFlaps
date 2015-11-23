@@ -3,7 +3,7 @@
 #include "GUI.h"
 #include "Stack.h"
 #include "Main.h"
-
+#include "find_solution.h"
 
 using namespace Graph_lib;
 
@@ -33,7 +33,7 @@ struct Game_window: Graph_lib::Window
 			void cb_flip(int n);
 			void redraw_window();
 			bool is_solved();
-			//int calc_min_moves();
+			int calc_min_moves();
 			vector<int> reverse(vector<Pancake> in);
 			int calc_score();
 
