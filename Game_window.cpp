@@ -39,13 +39,24 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
 		}
 	
 	//min_moves=diff;
-	
+    time = diff*10;
+    if(time >60)
+    {
+        minute = time / 60;
+        seconds = time - 60;
+    }
+    else
+    {
+        minute = 0;
+        seconds = time;
+    }
 	flip_count=0;
     
     min_moves_label = new Text{Point{20,25}, "Can be done in " + to_string(min_moves) + " moves"};
     flip_count_label = new Text{Point{20,50}, "Moves: " + to_string(flip_count)};
     score_label = new Text{Point{20,75}, "Score: " + to_string(score)};
-    
+    time_label = new Text{Point{20,100},"Time: " + to_string(minute)+":"+to_string(seconds)};
+    Fl::add_timeout(1.0,calltime,this);
 	r00 =  new Rectangle{Point{0,0},(diff+1)*40,500};
     r00->set_fill_color(color());
     r00->set_color(Color::invisible);
@@ -53,6 +64,7 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     attach(*flip_count_label);
     attach(*min_moves_label);
     attach(*score_label);
+    attach(*time_label);
 	redraw_window();
 }
 
@@ -63,6 +75,15 @@ void Game_window::cb_flip(int n)
     redraw_window();
 }
 
+void Game_window::redraw_time_label()
+{
+    
+    if (seconds < 10)
+            time_label->set_label("Time: " + to_string(minute)+":0"+to_string(seconds));
+       else
+           time_label->set_label("Time: " + to_string(minute)+":"+to_string(seconds));
+    flush();
+}
 void Game_window::redraw_window(){
 	flush();
 	attach(*r00);
@@ -80,9 +101,13 @@ void Game_window::redraw_window(){
     min_moves_label->set_label("Can be done in " + to_string(min_moves) + " moves");
     score = calc_score();
     score_label->set_label("Score: " + to_string(score));
+    //redraw_time_label();
     attach(*flip_count_label);
     attach(*min_moves_label);
     attach(*score_label);
+    attach(*time_label);
+   // Fl::add_timeout(1.0,calltime,this);
+    
    
     if(score < 0){
         score = 0;
@@ -125,7 +150,25 @@ bool Game_window::is_solved(){
 			out.push_back(in[i].get_width());
 		return out;
 	}
-	
+
+void Game_window::calltime(void* data)
+{
+    
+    Game_window* gw = (Game_window*) data;
+    if( gw->seconds == 0 && gw->minute > 0 )
+    {
+        gw->minute -=1;
+        gw->seconds = 59;
+    }
+    else
+        gw->seconds -= 1;
+    if(gw->seconds <= 0 && gw->minute <= 0)
+        end_game();
+    
+    gw->redraw_time_label();
+    Fl::repeat_timeout(1.0,calltime, gw);
+    
+}
 
 int Game_window::calc_score(){
 int score = (100-(10 *(flip_count-min_moves)))*stack.size();
