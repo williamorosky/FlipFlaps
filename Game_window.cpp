@@ -7,8 +7,10 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     :Window{xy,w,h,title}
 {
     stack.create_stack(diff);
+    
 	min_moves = calc_min_moves();
 	score=0;
+    swap = true;
     int b_height = (win_height - 50)-(20*diff)+30;
     Button* b2 = new Button{Point{(diff+1)*40,b_height},25,20,"1",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
     Button* b3 = new Button{Point{(diff+1)*40,b_height+20},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
@@ -129,14 +131,21 @@ bool Game_window::is_solved(){
 //calculate the minimum moves required to win
 	int Game_window::calc_min_moves()
 	{
-	if(stack.size()<10){
-		vector<int> reverse_stack = reverse(stack.get_stack());
+        vector<int> reverse_stack = reverse(stack.get_stack());
+        int size = reverse_stack.size();
+        
+	if(stack.size() <= n_size){
+		
 		vector<int>* min_moves_vector = find_solution(reverse_stack);
 		int min_moves = min_moves_vector->size();
 		return min_moves;
 	}
 	else{
-	return 25;
+        
+        int min_moves = greater_find_solution(reverse_stack);
+        return min_moves;
+        
+	//return 25;
 	}
 	
 	}
@@ -168,6 +177,77 @@ void Game_window::calltime(void* data)
     gw->redraw_time_label();
     Fl::repeat_timeout(1.0,calltime, gw);
     
+}
+int Game_window::greater_find_solution(vector<int> pen)
+{
+    int n_count= pen.size();
+    int diff_count = n_count - n_size;
+    
+    int outer_loop=0;
+    int count = 0;
+    cout << "here";
+    flush();
+    vector<int> in = pen;
+    int largest = 0;
+    int index = 0;
+    int flip = 0;
+    int end = n_count - 1;
+    int n_min = 0;
+    cout << ">>>>>1";
+    flush();
+    while(outer_loop < diff_count)
+    {
+        for(int i = 0;i<end;i++)//Supposed to find the next largest number
+        {
+            cout << ">>> 2>>>>" << i;
+            flush();
+            largest = 0;
+            if(largest<in[i])
+            {
+                largest = in[i];
+                index = i;
+                flip = i+1;
+            }
+        }
+        
+            
+        int d = index;
+        for(int start = 0;start<flip;start++)//Flips the largest number to the top
+        {
+            if (start >= d)
+                break;
+            else
+            {
+                cout << ">>>3>>>" << start;
+                flush();
+                 int temp = in[d];
+                    in[d] = in[start];
+                    in[start] = temp;
+                    d--;
+            }
+            
+        }
+        count++;
+        d = end;
+        for(int s = 0;s<end;s++)
+        {
+            if (s >= d)
+                break;
+            int temp = in[d];
+            in[d] = in[s];
+            in[s] = temp;
+            d--;
+        }
+        count++;
+        
+      
+        end--;
+        outer_loop++;
+    }
+    vector<int>* min_moves_vector = find_solution(in);
+    n_min = min_moves_vector->size();
+    count = count+n_min;
+    return count;
 }
 
 int Game_window::calc_score(){

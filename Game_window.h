@@ -15,6 +15,9 @@ struct Game_window: Graph_lib::Window
     int time;
     int minute;
     int seconds;
+    const int n_size=9;
+    //int min_moves = 0;
+    
     static void calltime(void*);
     void redraw_time_label();
     
@@ -31,7 +34,7 @@ struct Game_window: Graph_lib::Window
 			int flip_count;
 			Text* flip_count_label;
 			int min_moves;
-    
+    bool swap;
 			Text* min_moves_label;
     Text* time_label;
 			int score;
@@ -40,7 +43,7 @@ struct Game_window: Graph_lib::Window
 		//functions
 			void cb_flip(int n);
 			void redraw_window();
-    
+            int greater_find_solution(vector<int> in);
 			bool is_solved();
 			int calc_min_moves();
 			vector<int> reverse(vector<Pancake> in);
