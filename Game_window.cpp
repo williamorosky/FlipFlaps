@@ -11,16 +11,11 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
 	min_moves = calc_min_moves();
   
 	score=0;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     swap = true;
-   
-=======
+
 	bonus=false;
->>>>>>> master
-=======
-	bonus=false;
->>>>>>> master
+
     int b_height = (win_height - 50)-(20*diff)+30;
     Button* b2 = new Button{Point{(diff+1)*40,b_height},25,20,"1",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
     Button* b3 = new Button{Point{(diff+1)*40,b_height+20},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
@@ -222,16 +217,11 @@ void Game_window::calltime(void* data)
     }
     else
         gw->seconds -= 1;
-<<<<<<< HEAD
     if(gw->seconds <= 0 && gw->minute <= 0){
 		gw->score=0;
         end_game();
     }
-=======
-    if(gw->seconds <= 0 && gw->minute <= 0)
-        end_game();
-    
->>>>>>> origin/wo-game
+
     gw->redraw_time_label();
     Fl::repeat_timeout(1.0,calltime, gw);
     
