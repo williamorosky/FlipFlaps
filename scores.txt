@@ -17,4 +17,7 @@ Iss 1680
 AJ 1260
 AJ 1260
 >>>>>>> origin/wo-game
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master

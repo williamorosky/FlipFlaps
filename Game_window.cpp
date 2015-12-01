@@ -12,8 +12,12 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
   
 	score=0;
 <<<<<<< HEAD
+<<<<<<< HEAD
     swap = true;
    
+=======
+	bonus=false;
+>>>>>>> master
 =======
 	bonus=false;
 >>>>>>> master
