@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 HHH 4080
 JJJ 3500
 HHH 3200
 GGG 3000
 WWW 2900
+=======
+AAA 288600040
+ISS 2400
+Iss 1680
+AJ 1260
+AJ 1260
+>>>>>>> origin/wo-game

@@ -180,10 +180,16 @@ void Game_window::calltime(void* data)
     }
     else
         gw->seconds -= 1;
+<<<<<<< HEAD
     if(gw->seconds <= 0 && gw->minute <= 0){
 		gw->score=0;
         end_game();
     }
+=======
+    if(gw->seconds <= 0 && gw->minute <= 0)
+        end_game();
+    
+>>>>>>> origin/wo-game
     gw->redraw_time_label();
     Fl::repeat_timeout(1.0,calltime, gw);
     
