@@ -16,6 +16,10 @@ struct Result_window : Graph_lib::Window
 	//functions
 		void set_initials(string inits);
 		void set_player_score(int p_score);
+		void set_difficulty(int diff);
+		void set_min_moves(int min);
+		void set_flip_count(int flips);
+		void set_bonus(bool bonus);
 		void update();
 	private:
 		//objects
@@ -26,6 +30,10 @@ struct Result_window : Graph_lib::Window
 			vector<string> initials_vector;
 			vector<int> scores_vector;
 			int player_score;
+			int p_difficulty;
+			int p_min_moves;
+			int p_flip_count;
+			bool p_bonus;
 		//constants		
 			const int button_width{50};
 			const int button_height{30};
@@ -34,6 +42,7 @@ struct Result_window : Graph_lib::Window
 			const string scores_filename{"scores.txt"};
 		//functions
 			void display_scores();
+			void display_calculation();
 			void input_scores();
 			void sort_scores();
 			void output_scores();

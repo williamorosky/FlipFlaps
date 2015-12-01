@@ -14,6 +14,9 @@ using namespace std;
 	string initials;	
 	int* difficulty;
 	int score;
+	int min_moves;
+	int flip_count;
+	bool bonus;
 
 //GUI objects
 	Splash_window* splash_win;
@@ -60,10 +63,10 @@ try
         result_win->hide();
 
 		//add "Next" buttons and attach
-		splash_win_button = new Button{Point{540,460},80,30,"Let's Play!",Callback(cb_splash_win_button)};	
-		instructions_win_button = new Button{Point{540, 460}, 80, 30, "Next", Callback(cb_instructions_window_button)};
-		scores_win_button = new Button{Point{540,460},80,30,"Next",Callback(cb_scores_win_button)};
-        result_win_button = new Button{Point{540,460},80,30,"Next",Callback(cb_result_win_button)};
+		splash_win_button = new Button{Point{600,460},80,30,"Let's Play!",Callback(cb_splash_win_button)};	
+		instructions_win_button = new Button{Point{600, 460}, 80, 30, "Next", Callback(cb_instructions_window_button)};
+		scores_win_button = new Button{Point{600,460},80,30,"Next",Callback(cb_scores_win_button)};
+        result_win_button = new Button{Point{600,460},80,30,"Quit",Callback(cb_result_win_button)};
     
 		instructions_win_back_button = new Button{Point{0,0}, 80, 30, "Back", Callback(cb_instructions_window_back_button)};
 		scores_win_back_button = new Button{Point{0,0},80,30,"Back",Callback(cb_scores_win_back_button)};
@@ -121,7 +124,16 @@ void end_game()
 {
     game_win->hide();
     score = game_win->get_score();
-	 result_win->set_player_score(score);
+	min_moves = game_win->get_min_moves();
+    flip_count = game_win->get_flip_count();
+	bonus = game_win->get_bonus();
+	difficulty = new int(difficulty_win->get_difficulty());
+	
+	result_win->set_player_score(score);
+	result_win->set_difficulty(*difficulty);
+	result_win->set_min_moves(min_moves);
+	result_win->set_flip_count(flip_count);
+	result_win->set_bonus(bonus);
     result_win->set_initials(initials);
     result_win->update();
     result_win->show();
