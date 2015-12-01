@@ -11,8 +11,12 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
 	min_moves = calc_min_moves();
   
 	score=0;
+<<<<<<< HEAD
     swap = true;
    
+=======
+	bonus=false;
+>>>>>>> master
     int b_height = (win_height - 50)-(20*diff)+30;
     Button* b2 = new Button{Point{(diff+1)*40,b_height},25,20,"1",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
     Button* b3 = new Button{Point{(diff+1)*40,b_height+20},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
@@ -137,11 +141,28 @@ void Game_window::redraw_window(){
    // Fl::add_timeout(1.0,calltime,this);
     
    
-    if(score < 0){
+    if(score <= 0){
+		Text* loser = new Text{Point{(win_width/2)-100,win_height/2},"LOSER!"};
+		loser->set_color(fl_rgb_color(255,0,0));
+		loser->set_font_size(40);
+		attach(*loser);
+		Fl::wait(10);
         score = 0;
         end_game();}
-    if(is_solved())
+    if(is_solved()){
+	
+		Text* winner = new Text{Point{(win_width/2)-100,win_height/2},"WINNER!"};
+		winner->set_font_size(40);
+		winner->set_color(fl_rgb_color(255,224,97));
+		attach(*winner);
+		Fl::wait(10);
+		
+		if(flip_count<min_moves){
+			bonus = true;
+			score+=1000;
+		}
         end_game();
+		}
 }
 
 bool Game_window::is_solved(){
@@ -197,9 +218,16 @@ void Game_window::calltime(void* data)
     }
     else
         gw->seconds -= 1;
+<<<<<<< HEAD
+    if(gw->seconds <= 0 && gw->minute <= 0){
+		gw->score=0;
+        end_game();
+    }
+=======
     if(gw->seconds <= 0 && gw->minute <= 0)
         end_game();
     
+>>>>>>> origin/wo-game
     gw->redraw_time_label();
     Fl::repeat_timeout(1.0,calltime, gw);
     
@@ -331,9 +359,20 @@ int Game_window::greater_find_solution(vector<int> pen)
 
 int Game_window::calc_score(){
 int score = (100-(10 *(flip_count-min_moves)))*stack.size();
+
+
 return score;
 }
 
 int Game_window::get_score(){
 return score;
+}
+int Game_window::get_min_moves(){
+	return min_moves;
+}
+int Game_window::get_flip_count(){
+	return flip_count;
+}
+bool Game_window::get_bonus(){
+	return bonus;
 }

@@ -11,6 +11,12 @@ struct Game_window: Graph_lib::Window
 {
     Game_window(Point xy, int w, int h, const string& title,int diff);
 	int get_score();
+<<<<<<< HEAD
+	int get_min_moves();
+	int get_flip_count();
+	bool get_bonus();
+=======
+>>>>>>> origin/wo-game
     
     int time;
     int minute;
@@ -30,13 +36,18 @@ struct Game_window: Graph_lib::Window
 		//objects
 			Stack stack;
 			Rectangle* r00;
+			bool bonus;
 			Vector_ref<Button> flip_buttons;
 			int flip_count;
 			Text* flip_count_label;
 			int min_moves;
     bool swap;
 			Text* min_moves_label;
+<<<<<<< HEAD
+			Text* time_label;
+=======
     Text* time_label;
+>>>>>>> origin/wo-game
 			int score;
 			Text* score_label;
 		
