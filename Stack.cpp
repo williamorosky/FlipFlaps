@@ -1,3 +1,8 @@
+//Team H08: William  O'Rosky, Akshay Jagadeesh, Tyler Nardecchia
+//CSCE 121-509 
+//Due: December 2, 2015
+//Stack.cpp
+
 #include "Stack.h"
 
 //creates the stack of pancakes from 1 to the size of the stack
@@ -30,7 +35,7 @@ void Stack::flip(int n)
 	else
 	{
 		
-      int d = stack.size()-1-n;
+		int d = stack.size()-1-n;
         for(int start = stack.size()-1;start>0;start--)
         {
             if (start <= d)
@@ -43,41 +48,7 @@ void Stack::flip(int n)
                 d++;
             }
         }
-        
-       
-      /*int d = stack.size() - 1;
-        for (int u = n; u < stack.size(); ++u)
-		{
-			if (d <= u)
-				return;
-			else
-			{
-				Pancake temp = stack[d];
-				stack[d] = stack[u];
-				stack[u] = temp;
-				--d;
-			}
-		}*/
 	}
-}
-
-//function that prints the stack to the console (not used in the game)
-void Stack::print_stack()
-{
-	for (int i = stack.size() - 1; i >= 0; --i)
-		cout << stack[i].get_width() << '\n';
-}
-
-//function used to make sure the pancakes aren't already in order
-//(not used in the game)
-bool Stack::is_repeat(int w)
-{
-	for (int i = 0; i < stack.size(); ++i)
-	{
-		if (stack[i].get_width() == w)
-			return true;
-	}
-	return false;
 }
 
 //returns the size of the stack
