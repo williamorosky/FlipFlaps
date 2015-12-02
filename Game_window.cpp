@@ -1,3 +1,7 @@
+//Team H08: William  O'Rosky, Akshay Jagadeesh, Tyler Nardecchia
+//CSCE 121-509 
+//Due: December 2, 2015
+//Game_window.cpp
 
 #include "Game_window.h"
 
@@ -6,14 +10,13 @@ using namespace Graph_lib;
 Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     :Window{xy,w,h,title}
 {
+	//Create GUI and initialize variables
+	color(Color::white);
     stack.create_stack(diff);
-    
 	min_moves = calc_min_moves();
-  
 	score=0;
-
-    swap = true;
-
+	flip_count=0;
+    time = diff*10;
 	bonus=false;
 
     int b_height = (win_height - 50)-(20*diff)+30;
@@ -29,7 +32,6 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     Button* b11 = new Button{Point{(diff+1)*40,b_height+180},25,20,"10",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(10);}};
     Button* b12 = new Button{Point{(diff+1)*40,b_height+200},25,20,"11",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(11);}};
 
-	
     flip_buttons.push_back(b2);
     flip_buttons.push_back(b3);
     flip_buttons.push_back(b4);
@@ -43,12 +45,10 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     flip_buttons.push_back(b12);
 
     for(int i = 0; i < stack.size() - 1; ++i)
-		{
-			this->attach(flip_buttons[i]);
-		}
-	
-	
-    time = diff*10;
+	{
+		this->attach(flip_buttons[i]);
+	}
+
     if(time >60)
     {
         minute = time / 60;
@@ -72,21 +72,19 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
             seconds = time;
         }
     }
-	flip_count=0;
-    
-   
+	
     flip_count_label = new Text{Point{20,50}, "Moves: " + to_string(flip_count)};
     score_label = new Text{Point{20,75}, "Score: " + to_string(score)};
+	min_moves_label = new Text{Point{20,25}, "Can be done in " + to_string(min_moves) + " moves"};
+	
     if (seconds < 10)
             time_label = new Text{Point{20,100},"Time: " + to_string(minute)+":0"+to_string(seconds)};
         else
             time_label = new Text{Point{20,100},"Time: " + to_string(minute)+":"+to_string(seconds)};
-    
-   
-    
-    min_moves_label = new Text{Point{20,25}, "Can be done in " + to_string(min_moves) + " moves"};
+			
+
     Fl::add_timeout(1.0,calltime,this);
-  //  cerr<<"After making all the labels: "<<endl;
+
 	r00 =  new Rectangle{Point{0,0},(diff+1)*40,500};
     r00->set_fill_color(color());
     r00->set_color(Color::invisible);
@@ -95,10 +93,11 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     attach(*min_moves_label);
     attach(*score_label);
     attach(*time_label);
-    cerr<<"It does attach the labels: "<<endl;
+
 	redraw_window();
 }
 
+//Flip function reverses order of the stack of n pancakes 
 void Game_window::cb_flip(int n)
 {
     stack.flip(n);
@@ -106,66 +105,83 @@ void Game_window::cb_flip(int n)
     redraw_window();
 }
 
+//Redraws timer every time it changes
 void Game_window::redraw_time_label()
-{
-    
+{ 
     if (seconds < 10)
             time_label->set_label("Time: " + to_string(minute)+":0"+to_string(seconds));
        else
            time_label->set_label("Time: " + to_string(minute)+":"+to_string(seconds));
     flush();
 }
-void Game_window::redraw_window(){
+
+//Redraws the window after every time the pancakes are flipped
+void Game_window::redraw_window()
+{
 	flush();
 	attach(*r00);
+	
 	int y = win_height - 50;
-	for(int i = 0; i<stack.size(); i++){
+	
+	//Draws pancakes
+	for(int i = 0; i<stack.size(); i++)
+	{
 		int x = (((stack.size()+1)*40)/2);
+		
 		Ellipse* pancake = new Ellipse{Point{x,y},(stack.get(i).get_width() * 20),height};
-		Color pancake_color(fl_rgb_color(0,stack.get(i).get_width()*(255/stack.size()),195));
+		//Color pancake_color(fl_rgb_color(0,stack.get(i).get_width()*(255/stack.size()),195));
+		Color pancake_color(fl_rgb_color(stack.get(i).get_width()*(255/stack.size()),0,0));
 		pancake->set_fill_color(pancake_color);
 		pancake->set_color(Color::invisible);
 		attach(*pancake);
+		
 		y -= height + 10;
 	}
+	
     flip_count_label->set_label("Moves: " + to_string(flip_count));
     min_moves_label->set_label("Can be done in " + to_string(min_moves) + " moves");
     score = calc_score();
     score_label->set_label("Score: " + to_string(score));
-    //redraw_time_label();
+
     attach(*flip_count_label);
     attach(*min_moves_label);
     attach(*score_label);
     attach(*time_label);
-   // Fl::add_timeout(1.0,calltime,this);
-    
    
-    if(score <= 0){
+	//Ends game if score reaches or goes below 0. 
+    if(score <= 0)
+	{
 		Text* loser = new Text{Point{(win_width/2)-100,win_height/2},"LOSER!"};
 		loser->set_color(fl_rgb_color(255,0,0));
 		loser->set_font_size(40);
 		attach(*loser);
 		Fl::wait(10);
         score = 0;
-        end_game();}
-    if(is_solved()){
+        end_game();
+	}
 	
+	//Ends game if problem is solved
+    if(is_solved())
+	{
 		Text* winner = new Text{Point{(win_width/2)-100,win_height/2},"WINNER!"};
 		winner->set_font_size(40);
 		winner->set_color(fl_rgb_color(255,224,97));
 		attach(*winner);
 		Fl::wait(10);
 		
-		if(flip_count<min_moves){
+		if(flip_count<min_moves)
+		{
 			bonus = true;
 			score+=1000;
 		}
+		
         end_game();
-		}
+	}
 }
 
-bool Game_window::is_solved(){
-
+//Checks is stack is in order from largest on the botton to largest on the top
+bool Game_window::is_solved()
+{
     for(int i = 0; i < stack.size()-1; ++i)
     {
         if(stack.get(i).get_width() < stack.get(i+1).get_width())
@@ -175,57 +191,58 @@ bool Game_window::is_solved(){
 }
 
 //calculate the minimum moves required to win
-	int Game_window::calc_min_moves()
-	{
-        vector<int> reverse_stack = reverse(stack.get_stack());
-        int size = reverse_stack.size();
+int Game_window::calc_min_moves()
+{
+    vector<int> reverse_stack = reverse(stack.get_stack());
+    int size = reverse_stack.size();
         
-	if(stack.size() <= n_size){
-		
+	if(stack.size() <= n_size)
+	{
 		vector<int>* min_moves_vector = find_solution(reverse_stack);
 		int min_moves = min_moves_vector->size();
 		return min_moves;
 	}
-	else{
-        
+	else
+	{
         int min_moves = greater_find_solution(reverse_stack);
         return min_moves;
-        
-	
 	}
-	
-	}
+}
 
-	//reverse the Stack vector of pancakes since Stack has the bottom pancake
-	//at index 0 and find_solution() requires the top pancake at index 0
-	vector<int> Game_window::reverse(vector<Pancake> in)
-	{
-		vector<int> out;
-		for(int i=in.size() - 1; i >= 0; --i)
-			out.push_back(in[i].get_width());
-		return out;
-	}
-
-void Game_window::calltime(void* data)
+//reverse the Stack vector of pancakes since Stack has the bottom pancake
+//at index 0 and find_solution() requires the top pancake at index 0
+vector<int> Game_window::reverse(vector<Pancake> in)
 {
-    
+	vector<int> out;
+	for(int i=in.size() - 1; i >= 0; --i)
+		out.push_back(in[i].get_width());
+	return out;
+}
+
+//Updates the time every second
+void Game_window::calltime(void* data)
+{  
     Game_window* gw = (Game_window*) data;
-    if( gw->seconds == 0 && gw->minute > 0 )
+	
+    if(gw->seconds == 0 && gw->minute > 0)
     {
         gw->minute -=1;
         gw->seconds = 59;
     }
     else
         gw->seconds -= 1;
-    if(gw->seconds <= 0 && gw->minute <= 0){
+		
+    if(gw->seconds <= 0 && gw->minute <= 0)
+	{
 		gw->score=0;
         end_game();
     }
 
     gw->redraw_time_label();
-    Fl::repeat_timeout(1.0,calltime, gw);
-    
+    Fl::repeat_timeout(1.0,calltime, gw); 
 }
+
+//Finds minimum moves for stack of pancakes size 10 and up
 int Game_window::greater_find_solution(vector<int> pen)
 {
     int n_count= pen.size();
@@ -241,16 +258,11 @@ int Game_window::greater_find_solution(vector<int> pen)
     int end = n_count-1;
     int n_min = 0;
     
-    for(int i = 0; i<end+1;i++)
-    {
-        cerr<<in[i]<<endl;
-    }
     while(outer_loop < diff_count)
     {
         largest = 0;
         for(int i = 0;i<end+1;i++)//Supposed to find the next largest number
         {
-            
             if(largest<in[i])
             {
                 largest = in[i];
@@ -258,16 +270,14 @@ int Game_window::greater_find_solution(vector<int> pen)
                 flip = i+1;
             }
         }
-      //  cerr<<"This is the largest number: "<<largest<<" outer loop: "<<outer_loop<< " index: "<<index<<" flip: "<<flip<<endl;
-        //cerr<<"size of pancake: "<<in.size();
+ 
         if (largest == in[end])// If largest pancake is alread at the bottom
         {
             count+=0;
-            cerr<<"Largest is at the bottom: "<<endl;
         }
-        // ---------------------------------------------------------------------------------------------------
         else if(largest == in[0])//If largest pancake is alread at the top
-        {int d = end;
+        {
+			int d = end;
             for(int s = 0;s<end+1;s++)
             {
                 if (s >= d)
@@ -281,92 +291,84 @@ int Game_window::greater_find_solution(vector<int> pen)
                 }
             }
             count++;
-        }//---------------------------------------------------------------------------------------------------
-        else
+        }
+		else
         {
-        int d = index;
-        for(int start = 0;start<flip;start++)//Flips the largest number to the top
-        {
-            if (start >= d)
-                break;
-            else
-            {
-               // cout << ">>>3>>>" << start;
-                //flush();
-                 int temp = in[d];
+			int d = index;
+			
+			for(int start = 0;start<flip;start++)//Flips the largest number to the top
+			{
+				if (start >= d)
+					break;
+				else
+				{
+					int temp = in[d];
                     in[d] = in[start];
                     in[start] = temp;
                     d--;
-            }
+				}
             
-        }
-        count++;
-           /* cerr<<"Current end value: "<<end<<endl;
-            cerr<<"First loop in outer loop: "<<outer_loop<<endl;
-            for(int i = 0; i<end+1;i++)
-                cerr<<in[i]<<endl;*/
-            
-        d = end;
-        for(int s = 0;s<end+1;s++)//Flips pancake to the bottom
-        {
-            if (s >= d)
-                break;
-            else
-            {
-            int temp = in[d];
-            in[d] = in[s];
-            in[s] = temp;
-            d--;
-            }
-        }
+			}
+			count++;
+          
+			d = end;
+			for(int s = 0;s<end+1;s++)//Flips pancake to the bottom
+			{
+				if (s >= d)
+					break;
+				else
+				{
+					int temp = in[d];
+					in[d] = in[s];
+					in[s] = temp;
+					d--;
+				}
+			}
             count++;
-            /*cerr<<"Second loop in outer loop: "<<outer_loop<<endl;
-            for(int i = 0; i<end+1;i++)
-                cerr<<in[i]<<endl;*/
         }
-        
-  //--------------------------------------------------------------------------------------------------------------------
-        end--;
+		end--;
         outer_loop++;
     }
-   cerr << "After sort loop " << endl;
+	
     vector<int> p;
     for (int i =0; i<in.size()-diff_count;i++)
     {
-        cout << in[i] << endl;
         p.push_back(in[i]);
     }
-    
- //   cout << "in size: " << in.size() << " p size:" << p.size() << endl;
-    
-   vector<int>* min_moves_vector = find_solution(p);
-  //  cout << "min moves vecotr size: " << min_moves_vector->size() << endl;
- //   flush();
+	
+	vector<int>* min_moves_vector = find_solution(p);
     n_min = min_moves_vector->size();
-   // cerr<<"Count: "<<count<<" n min: "<<n_min<<endl;
     count = count+n_min;
-    //cerr<<" The new counted add value: "<<count<<endl;
- //   cerr<< "Joshua is God Emperor: "<<endl;
-    
-    return count;
+	return count;
 }
 
-int Game_window::calc_score(){
-int score = (100-(10 *(flip_count-min_moves)))*stack.size();
-
-
-return score;
+//Calcultes player's score
+int Game_window::calc_score()
+{
+	int score = (100-(10 *(flip_count-min_moves)))*stack.size();
+	return score;
 }
 
-int Game_window::get_score(){
-return score;
+//Returns player's score
+int Game_window::get_score()
+{
+	return score;
 }
-int Game_window::get_min_moves(){
+
+//Returns minimum moves to reach solution
+int Game_window::get_min_moves()
+{
 	return min_moves;
 }
-int Game_window::get_flip_count(){
+
+//Returns minimum moves to reach solution
+int Game_window::get_flip_count()
+{
 	return flip_count;
 }
-bool Game_window::get_bonus(){
+
+//Returns whether or not player completed game in less moves then minimum moves
+bool Game_window::get_bonus()
+{
 	return bonus;
 }

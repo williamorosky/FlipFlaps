@@ -1,3 +1,8 @@
+//Team H08: William  O'Rosky, Akshay Jagadeesh, Tyler Nardecchia
+//CSCE 121-509 
+//Due: December 2, 2015
+//Pancake.h
+
 #include "std_lib_facilities_4.h"
 
 class Pancake
@@ -6,6 +11,7 @@ class Pancake
 	
 	//constructors
 	public:
+	
 		Pancake(int ww)
 		{
 			w = {ww};
