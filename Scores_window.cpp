@@ -69,13 +69,16 @@ vector<string> Scores_window::get_scores(ifstream& scores_file)
 //displays the initials and scores to the screen
 void Scores_window::display_scores(vector<string> scores)
 {
-	int y = 225;
-	for (int i = 0; i < scores.size(); ++i)
+	auto y = 225;
+	auto i = 0;
+	//for (int i = 0; i < scores.size(); ++i)
+	for(string x : scores)
 	{
 		Text* t = new Text{Point{(win_width/2)-35, y}, to_string(i + 1) + ") " + scores[i]};
 		t->set_color(Color{16});
 		t->set_font_size(20);
 		attach(*t);
 		y += 50;
+		i++;
 	}
 }

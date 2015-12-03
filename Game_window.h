@@ -60,7 +60,13 @@ struct Game_window: Graph_lib::Window
 		//private functions
 		void cb_flip(int n);
 		void redraw_window();
+<<<<<<< HEAD
     
+=======
+		void draw_pancakes();
+		void check_score();
+		void check_solved();
+>>>>>>> master
         int greater_find_solution(vector<int> in);
 		int calc_min_moves();
 		int calc_score();

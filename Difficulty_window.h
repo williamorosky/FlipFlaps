@@ -22,7 +22,9 @@ struct Difficulty_window : Graph_lib::Window
 	private:
 	//objects
 	Text* title_label;
+	Text* description;
 	Rectangle* title_label_rectangle;
+	Rectangle* description_rectangle;
 	Button* b2;
 	Button* b3;
 	Button* b4;

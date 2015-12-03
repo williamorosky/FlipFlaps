@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 JJJ 960
 AAA 960
 UUU 840
 AAA 630
 AAA 600
+=======
+AAA 600
+BBB 500
+CCC 400
+DDD 300
+EEE 200
+>>>>>>> master

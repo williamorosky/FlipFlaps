@@ -22,8 +22,13 @@ struct Splash_window : Graph_lib::Window
 		
 		//objects
 		Text title_text;
+		Text team_text;
 		Text names_text;
+<<<<<<< HEAD
         Text team_text;
+=======
+		Image texas_image;
+>>>>>>> master
 		Closed_polyline x1;
 		Closed_polyline x1h1;
 		Closed_polyline x1h2;
@@ -38,16 +43,25 @@ struct Splash_window : Graph_lib::Window
 //constructor
 Splash_window::Splash_window(Point xy, int w, int h, const string& title)
 :Window(xy,w,h,title),
+<<<<<<< HEAD
 background(Point((x_max()/2)-205,35),425,105),
 title_text(Point((x_max()/2)-150,80), "Flip Off!"),
 names_text(Point((x_max()/2)-180,120), "William O'Rosky, Akshay Jagadeesh, and Tyler Nardecchia"),
 team_text(Point((x_max()/2)-20,102),"Team: H08")
+=======
+background(Point((x_max()/2)-205,35),425,120),
+title_text(Point((x_max()/2)-150,80), "Flip Off!"),
+names_text(Point((x_max()/2)-180,140), "William O'Rosky, Akshay Jagadeesh, and Tyler Nardecchia"),
+team_text(Point((x_max()/2)-20,120), "Team H08"),
+texas_image(Point{(x_max()/2)-110, 220},"texas.jpg")
+>>>>>>> master
 {
 	//Sets up GUI
 	background.set_fill_color(Color{16});
     title_text.set_font_size(50);
     title_text.set_font(Graph_lib::Font::courier_bold);
-    
+    attach(texas_image);
+	
     x1.add(Point(265,450));
     x1.add(Point(515,250));
     x1.add(Point(495,220));
@@ -99,11 +113,11 @@ team_text(Point((x_max()/2)-20,102),"Team: H08")
     Fl_Color old_color = fl_color();
     fl_color(80,0,0);
     
-    x1.set_fill_color(Color{30});
+    x1.set_fill_color(Color::black);
     x1h1.set_fill_color(fl_color());
     x1h2.set_fill_color(fl_color());
     x1h3.set_fill_color(fl_color());
-    x2.set_fill_color(Color{30});
+    x2.set_fill_color(Color::black);
     x2h1.set_fill_color(fl_color());
     x2h2.set_fill_color(fl_color());
     x2h3.set_fill_color(fl_color());
@@ -112,9 +126,14 @@ team_text(Point((x_max()/2)-20,102),"Team: H08")
     
     attach(background);
     attach(title_text);
+	attach(team_text);
     attach(names_text);
+<<<<<<< HEAD
     attach(team_text);
 	
+=======
+
+>>>>>>> master
     attach(x1);
     attach(x1h1);
     attach(x1h2);

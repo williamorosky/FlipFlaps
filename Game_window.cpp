@@ -20,17 +20,17 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
 	bonus=false;
 
     int b_height = (win_height - 50)-(20*diff)+30;
-    Button* b2 = new Button{Point{(diff+1)*40,b_height},25,20,"1",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
-    Button* b3 = new Button{Point{(diff+1)*40,b_height+20},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
-    Button* b4 = new Button{Point{(diff+1)*40,b_height+40},25,20,"3",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(3);}};
-    Button* b5 = new Button{Point{(diff+1)*40,b_height+60},25,20,"4",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(4);}};
-    Button* b6 = new Button{Point{(diff+1)*40,b_height+80},25,20,"5",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(5);}};
-    Button* b7 = new Button{Point{(diff+1)*40,b_height+100},25,20,"6",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(6);}};
-    Button* b8 = new Button{Point{(diff+1)*40,b_height+120},25,20,"7",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(7);}};
-    Button* b9 = new Button{Point{(diff+1)*40,b_height+140},25,20,"8",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(8);}};
-    Button* b10 = new Button{Point{(diff+1)*40,b_height+160},25,20,"9",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(9);}};
-    Button* b11 = new Button{Point{(diff+1)*40,b_height+180},25,20,"10",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(10);}};
-    Button* b12 = new Button{Point{(diff+1)*40,b_height+200},25,20,"11",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(11);}};
+    Button* b2 = new Button{Point{(diff+1)*40,b_height},25,20,"2",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(1);}};
+    Button* b3 = new Button{Point{(diff+1)*40,b_height+20},25,20,"3",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(2);}};
+    Button* b4 = new Button{Point{(diff+1)*40,b_height+40},25,20,"4",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(3);}};
+    Button* b5 = new Button{Point{(diff+1)*40,b_height+60},25,20,"5",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(4);}};
+    Button* b6 = new Button{Point{(diff+1)*40,b_height+80},25,20,"6",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(5);}};
+    Button* b7 = new Button{Point{(diff+1)*40,b_height+100},25,20,"7",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(6);}};
+    Button* b8 = new Button{Point{(diff+1)*40,b_height+120},25,20,"8",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(7);}};
+    Button* b9 = new Button{Point{(diff+1)*40,b_height+140},25,20,"9",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(8);}};
+    Button* b10 = new Button{Point{(diff+1)*40,b_height+160},25,20,"10",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(9);}};
+    Button* b11 = new Button{Point{(diff+1)*40,b_height+180},25,20,"11",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(10);}};
+    Button* b12 = new Button{Point{(diff+1)*40,b_height+200},25,20,"12",[](Address,Address pw){reference_to<Game_window>(pw).cb_flip(11);}};
 
     flip_buttons.push_back(b2);
     flip_buttons.push_back(b3);
@@ -43,7 +43,7 @@ Game_window::Game_window(Point xy, int w, int h, const string& title,int diff)
     flip_buttons.push_back(b10);
     flip_buttons.push_back(b11);
     flip_buttons.push_back(b12);
-
+	
     for(int i = 0; i < stack.size() - 1; ++i)
 	{
 		this->attach(flip_buttons[i]);
@@ -120,25 +120,7 @@ void Game_window::redraw_window()
 {
 	flush();
 	attach(*r00);
-	
-	int y = win_height - 50;
-    vector<int>v;
-    
- 
-	//Draws pancakes
-    for(int i = 0; i<stack.size(); i++)
-	{
-		int x = (((stack.size()+1)*40)/2);
-		
-		Ellipse* pancake = new Ellipse{Point{x,y},(stack.get(i).get_width() * 20),height};
-		//Color pancake_color(fl_rgb_color(0,stack.get(i).get_width()*(255/stack.size()),195));
-		Color pancake_color(fl_rgb_color(stack.get(i).get_width()*(255/stack.size()),0,0));
-		pancake->set_fill_color(pancake_color);
-		pancake->set_color(Color::invisible);
-		attach(*pancake);
-		
-		y -= height + 10;
-	}
+	draw_pancakes();
 	
     flip_count_label->set_label("Moves: " + to_string(flip_count));
     min_moves_label->set_label("Can be done in " + to_string(min_moves) + " moves");
@@ -149,8 +131,44 @@ void Game_window::redraw_window()
     attach(*min_moves_label);
     attach(*score_label);
     attach(*time_label);
-   
-	//Ends game if score reaches or goes below 0. 
+	
+	check_score();
+	check_solved();
+}
+
+//Draws pancakes
+void Game_window::draw_pancakes()
+{
+	int y = win_height - 50;
+<<<<<<< HEAD
+    vector<int>v;
+    
+ 
+	//Draws pancakes
+    for(int i = 0; i<stack.size(); i++)
+=======
+	
+	/*vector<int> v = {5, 7, 9, 4, 6, 8};
+	for (int x : v)        // for each x in v
+          cout << x << '\n';
+	*/
+	for(auto i = 0; i<stack.size(); i++)
+>>>>>>> master
+	{
+		int x = (((stack.size()+1)*40)/2);
+		
+		Ellipse* pancake = new Ellipse{Point{x,y},(stack.get(i).get_width() * 20),height};
+		Color pancake_color(fl_rgb_color(stack.get(i).get_width()*(255/stack.size()),0,0));
+		pancake->set_fill_color(pancake_color);
+		pancake->set_color(Color::invisible);
+		attach(*pancake);
+		y -= height + 10;
+	}
+}
+
+//Ends game if score reaches or goes below 0.
+void Game_window::check_score()
+{ 
     if(score <= 0)
 	{
 		Text* loser = new Text{Point{(win_width/2)-100,win_height/2},"LOSER!"};
@@ -161,8 +179,11 @@ void Game_window::redraw_window()
         score = 0;
         end_game();
 	}
-	
-	//Ends game if problem is solved
+}
+
+//Ends game if problem is solved	
+void Game_window::check_solved()
+{
     if(is_solved())
 	{
 		Text* winner = new Text{Point{(win_width/2)-100,win_height/2},"WINNER!"};
