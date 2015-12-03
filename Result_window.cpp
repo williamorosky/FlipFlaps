@@ -88,6 +88,7 @@ void Result_window::display_scores()
 }
 
 //displays how the score was calculated
+//Having this less than 24 lines creates more trouble than it's worth
 void Result_window::display_calculation()
 {
 	Text* title = new Text{Point{(win_width/2)-35, 90}, "Calculation"};
@@ -170,6 +171,7 @@ void Result_window::sort_scores()
 {
 	initials_vector.push_back(initials);
 	scores_vector.push_back(player_score);
+	
 	for(int p=0; p<5; p++)
 	{
 		for(int i=0; i < scores_vector.size() - 1; ++i)

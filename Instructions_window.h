@@ -59,10 +59,10 @@ Instructions_window::Instructions_window(Point xy, int w, int h, const string& t
 	middle_text2 = new Text{Point{230,310}, "flips the order above the with that pancake on top."};
 	middle_text2->set_font_size(size);
 	middle_text2->set_color(Color{0});
-	lower_text = new Text{*lower_bullet,"3) The game is over when the pancakes are ordered, time runs "};
+	lower_text = new Text{*lower_bullet,"3) The game is over when the pancakes are ordered,"};
 	lower_text->set_font_size(size);
 	lower_text->set_color(Color{0});
-	lower_text2 = new Text{Point{230,420}, "out, or if your score reaches 0."};
+	lower_text2 = new Text{Point{230,420}, "time runs out, or if your score reaches 0."};
 	lower_text2->set_font_size(size);
 	lower_text2->set_color(Color{0});
 

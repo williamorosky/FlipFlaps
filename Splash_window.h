@@ -23,6 +23,7 @@ struct Splash_window : Graph_lib::Window
 		//objects
 		Text title_text;
 		Text names_text;
+		Image texas_image;
 		Closed_polyline x1;
 		Closed_polyline x1h1;
 		Closed_polyline x1h2;
@@ -39,13 +40,15 @@ Splash_window::Splash_window(Point xy, int w, int h, const string& title)
 :Window(xy,w,h,title),
 background(Point((x_max()/2)-205,35),425,105),
 title_text(Point((x_max()/2)-165,80), "Flip Flaps"),
-names_text(Point((x_max()/2)-180,120), "William O'Rosky, Akshay Jagadeesh, and Tyler Nardecchia")
+names_text(Point((x_max()/2)-180,120), "William O'Rosky, Akshay Jagadeesh, and Tyler Nardecchia"),
+texas_image(Point{(x_max()/2)-110, 220},"texas.jpg")
 {
 	//Sets up GUI
 	background.set_fill_color(Color{7});
     title_text.set_font_size(50);
     title_text.set_font(Graph_lib::Font::courier_bold);
-    
+    attach(texas_image);
+	
     x1.add(Point(265,450));
     x1.add(Point(515,250));
     x1.add(Point(495,220));
@@ -97,11 +100,11 @@ names_text(Point((x_max()/2)-180,120), "William O'Rosky, Akshay Jagadeesh, and T
     Fl_Color old_color = fl_color();
     fl_color(80,0,0);
     
-    x1.set_fill_color(Color{30});
+    x1.set_fill_color(Color::black);
     x1h1.set_fill_color(fl_color());
     x1h2.set_fill_color(fl_color());
     x1h3.set_fill_color(fl_color());
-    x2.set_fill_color(Color{30});
+    x2.set_fill_color(Color::black);
     x2h1.set_fill_color(fl_color());
     x2h2.set_fill_color(fl_color());
     x2h3.set_fill_color(fl_color());
@@ -111,7 +114,7 @@ names_text(Point((x_max()/2)-180,120), "William O'Rosky, Akshay Jagadeesh, and T
     attach(background);
     attach(title_text);
     attach(names_text);
-	
+
     attach(x1);
     attach(x1h1);
     attach(x1h2);
