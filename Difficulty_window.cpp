@@ -16,13 +16,21 @@ Difficulty_window::Difficulty_window(Point xy, int w, int h, const string& title
 	color(fl_color());
 	
 	title_label = new Text{Point{(win_width/2)-90, win_height/15+50}, "Difficulty"};
+	description = new Text{Point{(win_width/2)-330, win_height/4+28}, "Each difficulty corresponds to the number of pancakes in the stack."};
 	title_label_rectangle = new Rectangle{Point{265,40},250,70};
+	description_rectangle = new Rectangle{Point{35,130},682,40};
 	title_label->set_font(Graph_lib::Font::courier_bold);
+	description->set_font(Graph_lib::Font::courier_bold);
 	title_label->set_color(Color{0});
+	description->set_color(Color{0});
 	title_label->set_font_size(30);
 	title_label_rectangle->set_fill_color(Color{16});
+	description_rectangle->set_fill_color(Color{16});
+	
 	attach(*title_label_rectangle);
 	attach(*title_label);
+	attach(*description_rectangle);
+	attach(*description);
 	
 	b2 = new Button{Point{100,300},50,50,"2",[](Address,Address pw){reference_to<Difficulty_window>(pw).set_difficulty(2);}};
 	b3 = new Button{Point{150,300},50,50,"3",[](Address,Address pw){reference_to<Difficulty_window>(pw).set_difficulty(3);}};
@@ -35,7 +43,7 @@ Difficulty_window::Difficulty_window(Point xy, int w, int h, const string& title
 	b10 = new Button{Point{500,300},50,50,"10",[](Address,Address pw){reference_to<Difficulty_window>(pw).set_difficulty(10);}};
 	b11 = new Button{Point{550,300},50,50,"11",[](Address,Address pw){reference_to<Difficulty_window>(pw).set_difficulty(11);}};
 	b12 = new Button{Point{600,300},50,50,"12",[](Address,Address pw){reference_to<Difficulty_window>(pw).set_difficulty(12);}};
-						
+	
 	attach(*b2);
 	attach(*b3);
 	attach(*b4);
