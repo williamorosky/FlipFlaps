@@ -122,9 +122,11 @@ void Game_window::redraw_window()
 	attach(*r00);
 	
 	int y = win_height - 50;
-	
+    vector<int>v;
+    
+ 
 	//Draws pancakes
-	for(int i = 0; i<stack.size(); i++)
+    for(int i = 0; i<stack.size(); i++)
 	{
 		int x = (((stack.size()+1)*40)/2);
 		
@@ -245,103 +247,129 @@ void Game_window::calltime(void* data)
 //Finds minimum moves for stack of pancakes size 10 and up
 int Game_window::greater_find_solution(vector<int> pen)
 {
-    int n_count= pen.size();
-    int diff_count = n_count - n_size;
-    
+   
+    int diff_count = pen.size() - n_size;
     int outer_loop=0;
     int count = 0;
-    
     vector<int> in = pen;
-    int largest = 0;
-    int index = 0;
-    int flip = 0;
-    int end = n_count-1;
-    int n_min = 0;
+    int end = pen.size()-1;
+  
     
+   
     while(outer_loop < diff_count)
     {
-        largest = 0;
-        for(int i = 0;i<end+1;i++)//Supposed to find the next largest number
-        {
-            if(largest<in[i])
-            {
-                largest = in[i];
-                index = i;
-                flip = i+1;
-            }
-        }
- 
+        int index =find_index(in,0,end);
+        int largest = find_largest( in, 0,end);
+        
         if (largest == in[end])// If largest pancake is alread at the bottom
-        {
-            count+=0;
-        }
+        {}
         else if(largest == in[0])//If largest pancake is alread at the top
         {
-			int d = end;
-            for(int s = 0;s<end+1;s++)
-            {
-                if (s >= d)
-                    break;
-                else
-                {
-                int temp = in[d];
-                in[d] = in[s];
-                in[s] = temp;
-                d--;
-                }
-            }
+            in = flip_to_top(in, end);
             count++;
         }
 		else
         {
-			int d = index;
-			
-			for(int start = 0;start<flip;start++)//Flips the largest number to the top
-			{
-				if (start >= d)
-					break;
-				else
-				{
-					int temp = in[d];
-                    in[d] = in[start];
-                    in[start] = temp;
-                    d--;
-				}
-            
-			}
-			count++;
-          
-			d = end;
-			for(int s = 0;s<end+1;s++)//Flips pancake to the bottom
-			{
-				if (s >= d)
-					break;
-				else
-				{
-					int temp = in[d];
-					in[d] = in[s];
-					in[s] = temp;
-					d--;
-				}
-			}
-            count++;
+		
+            in = flip_to_top(in,index);
+			in = flip_to_bottom(in,end);
+            count+=2;
         }
 		end--;
         outer_loop++;
     }
-	
-    vector<int> p;
-    for (int i =0; i<in.size()-diff_count;i++)
-    {
-        p.push_back(in[i]);
-    }
-	
-	vector<int>* min_moves_vector = find_solution(p);
-    n_min = min_moves_vector->size();
+    
+    vector<int> p = make_vector(in,diff_count);
+    vector<int>* min_moves_vector = find_solution(p);
+    int n_min = min_moves_vector->size();
     count = count+n_min;
 	return count;
 }
+vector<int>  Game_window::make_vector(vector<int> in,int diff_count)
+{
+    vector<int> p;
+    cerr<<" THis is P: "<< endl;
+    for (int i =0; i<in.size()-diff_count;i++)
+    {
+        p.push_back(in[i]);
+        cerr<<p[i]<<endl;
+    }
+    return p;
+}
+int Game_window::find_largest(vector<int> in,int largest, int end)
+{
+    int index = 0;
+    for(int i = 0;i<end+1;i++)//Supposed to find the next largest number
+    {
+        if(largest<in[i])
+        {
+            largest = in[i];
+            index = i;
+            
+        }
+    }
+    
+    return largest;
+    
+}
+vector<int> Game_window::flip_to_top(vector<int> in,int end)
+{
+    vector<int> p = in;
+    int d = end;
+    for(int s = 0;s<end+1;s++)
+    {
+        if (s >= d)
+            break;
+        else
+        {
+            int temp = p[d];
+            p[d] = p[s];
+            p[s] = temp;
+            d--;
+        }
+    }
+    
+    return p;
+    
+}
+vector<int> Game_window::flip_to_bottom(vector<int>in,int end)
+{
+    vector<int> p = in;
+    int d = end;
+    for(int s = 0;s<end+1;s++)//Flips pancake to the bottom
+    {
+        if (s >= d)
+            break;
+        else
+        {
+            int temp = p[d];
+            p[d] = p[s];
+            p[s] = temp;
+            d--;
+        }
+    }
+    return p;
+    
+}
+int Game_window::find_index(vector<int> in,int r, int end)
+{
+    int index = r;
+    int largest = 0;
+    for(int i = 0;i<end+1;i++)//Supposed to find the next largest number
+    {
+        if(largest<in[i])
+        {
+            largest = in[i];
+            index = i;
+            
+        }
+    }
+    
+    return index;
+    
 
+    
+}
 //Calcultes player's score
 int Game_window::calc_score()
 {

@@ -23,6 +23,7 @@ struct Splash_window : Graph_lib::Window
 		//objects
 		Text title_text;
 		Text names_text;
+        Text team_text;
 		Closed_polyline x1;
 		Closed_polyline x1h1;
 		Closed_polyline x1h2;
@@ -38,11 +39,12 @@ struct Splash_window : Graph_lib::Window
 Splash_window::Splash_window(Point xy, int w, int h, const string& title)
 :Window(xy,w,h,title),
 background(Point((x_max()/2)-205,35),425,105),
-title_text(Point((x_max()/2)-165,80), "Flip Flaps"),
-names_text(Point((x_max()/2)-180,120), "William O'Rosky, Akshay Jagadeesh, and Tyler Nardecchia")
+title_text(Point((x_max()/2)-150,80), "Flip Off!"),
+names_text(Point((x_max()/2)-180,120), "William O'Rosky, Akshay Jagadeesh, and Tyler Nardecchia"),
+team_text(Point((x_max()/2)-20,102),"Team: H08")
 {
 	//Sets up GUI
-	background.set_fill_color(Color{7});
+	background.set_fill_color(Color{16});
     title_text.set_font_size(50);
     title_text.set_font(Graph_lib::Font::courier_bold);
     
@@ -111,6 +113,7 @@ names_text(Point((x_max()/2)-180,120), "William O'Rosky, Akshay Jagadeesh, and T
     attach(background);
     attach(title_text);
     attach(names_text);
+    attach(team_text);
 	
     attach(x1);
     attach(x1h1);

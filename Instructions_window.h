@@ -71,7 +71,7 @@ Instructions_window::Instructions_window(Point xy, int w, int h, const string& t
     color(fl_color());
 	
 	title_rectangle = new Rectangle{Point{215,10},300,60};
-	rules_rectangle = new Rectangle{Point{155,120},455,325};
+	rules_rectangle = new Rectangle{Point{155,120},470,325};
 	
 	title_rectangle->set_fill_color(Color{16});
 	rules_rectangle->set_fill_color(Color{16});

@@ -60,9 +60,18 @@ struct Game_window: Graph_lib::Window
 		//private functions
 		void cb_flip(int n);
 		void redraw_window();
+    
         int greater_find_solution(vector<int> in);
 		int calc_min_moves();
 		int calc_score();
+    
 		bool is_solved();
-		vector<int> reverse(vector<Pancake> in);
+    
+        int find_largest(vector<int> in,int largest,int end);
+        int find_index(vector<int> in,int index,int end);
+        vector<int> make_vector(vector<int> in,int diff_count);
+        vector<int> flip_to_top(vector<int> in,int end);
+        vector<int> flip_to_bottom(vector<int>in,int end);
+        vector<int> reverse(vector<Pancake> in);
+    
 };
